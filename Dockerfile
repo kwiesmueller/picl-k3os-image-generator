@@ -7,4 +7,4 @@ RUN apt-get update && apt-get install -y \
 # The repository should be mounted at /app.
 WORKDIR /app
 
-CMD ./build-image.sh $TARGET
+CMD ./build-image.sh $TARGET $NODE_NAME

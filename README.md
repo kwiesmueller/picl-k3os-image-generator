@@ -7,6 +7,26 @@ This project can be used to generate images for k3os compatible with various arm
 - Orange Pi PC 2
 - (Other devices may be compatible as well. PRs welcome! Please file an issue if you need any help with porting.)
 
+## Changes in this Fork
+
+To avoid the need of finding the respective MACs for each device before flashing, I made some changes so I can just provide my configs and
+then get an image per node.
+
+This is still not the ideal solution I'm looking for, but we're getting there.
+To use this script with my changes, provide the NODE_NAME:
+
+```sh
+docker run --rm -e TARGET=raspberrypi -e NODE_NAME=node-1 -v ${PWD}:/app -v /dev:/dev --privileged picl-builder:latest
+```
+
+Don't forget to build the image first `docker build . -t picl-builder:latest`.
+
+To build images for every config in `configs/` run `./build-images.sh`.
+For that to work, you have to name every config in the format of `<node-name>.<image-type>.yaml`.
+Like `node-1.raspberrypi.yaml`.
+
+Then flash your image to your device.
+
 ## Getting Started
 
 - First, make a list of devices you want to use in your k3s cluster, their hardware types and the MAC addresses of their eth0 interface. (To find the MAC, boot any supported OS, perhaps the one that comes on the included SD card if you have one, and `cat /sys/class/net/eth0/address`. Or, just continue with a dummy config and the initial boot will say "there is no config for MAC xx:xx:xx:xx:xx:xx", and then you know what to call it.)
